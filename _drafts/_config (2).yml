@@ -1,7 +1,7 @@
 # Setup
-title: Nrohaz's blog'
-description: Welcome to my blog!!
-url: https://github.com/narohaz
+title: Narohaz's blog'
+description: A simple, beautiful, and powerful Jekyll theme for blogs
+url: https://vszhub.github.io
 avatar: /avatar.jpeg
 paginate: 5
 permalink: pretty
@@ -29,14 +29,14 @@ exclude:
 
 # Optimize Jekyl SEO Tag
 twitter:
-  username: Narohaz
+  username: vszhub
   card: summary
 logo: logo.png
 social:
-  name: Narohaz
+  name: Songzi Vong
   links:
-    - https://twitter.com/narohazzz
-    - https://github.com/narohaz
+    - https://twitter.com/vszhub
+    - https://github.com/vszhub
 google_site_verification: xxxxx
 lang: en
 
@@ -56,4 +56,4 @@ sass:
 author:
   name: Narohaz
   url: https://github.com/narohaz
-  email: zr1943065871@163.com
+  email:zr1943065871@163.com

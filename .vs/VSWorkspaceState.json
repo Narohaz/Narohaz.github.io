@@ -1,7 +1,11 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\scripts",
+    "\\_drafts",
+    "\\_includes",
+    "\\_layouts"
   ],
-  "SelectedNode": "\\Gemfile",
+  "SelectedNode": "\\_includes\\head.html",
   "PreviewInSolutionExplorer": false
 }
