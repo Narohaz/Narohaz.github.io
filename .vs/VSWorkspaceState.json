@@ -1,11 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\scripts",
     "\\_drafts",
-    "\\_includes",
-    "\\_layouts"
+    "\\_layouts",
+    "\\_posts"
   ],
-  "SelectedNode": "\\_includes\\head.html",
+  "SelectedNode": "\\_posts\\2022-05-19-日志1.md",
   "PreviewInSolutionExplorer": false
 }
