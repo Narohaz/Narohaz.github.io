@@ -8,6 +8,7 @@ tags : 日志
 
 记录一个上学期java小作业里遇到的问题。(我不知道该怎么命名比较好...)
 
+一句话总结就是nextInt()会输入换行符之前的所有数据，而换行符会留在缓存区被下一个进入到下一个[输入方法]
 
 {% highlight js linenos %}
 import java.util.Scanner;
