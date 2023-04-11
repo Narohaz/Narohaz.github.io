@@ -2,10 +2,10 @@
 title: Narohaz's blog'
 description: “To Measure Is To Know. If You Cannot Measure It, You Cannot Improve It”  --Lord Kelvin
 url: https://github.com/narohaz
-avatar: /avatar.jpeg
+avatar: /crepper.jpg
 paginate: 5
 permalink: pretty
-cover_image: /bg.jpeg
+cover_image: /bg_minecraft.jpg
 
 # Gems
 plugins:
