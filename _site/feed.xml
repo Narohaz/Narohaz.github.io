@@ -1,8 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-04-11T10:30:07+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>“To Measure Is To Know. If You Cannot Measure It, You Cannot Improve It”  --Lord Kelvin</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">nextInt()缓存问题</title><link href="http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="nextInt()缓存问题" /><published>2022-05-23T12:41:38+08:00</published><updated>2022-05-23T12:41:38+08:00</updated><id>http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/">&lt;p&gt;一句话总结就是nextInt()会输入换行符之前的所有数据，而换行符会留在缓存区&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-18T19:49:01+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>“To Measure Is To Know. If You Cannot Measure It, You Cannot Improve It”  --Lord Kelvin</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">nextInt()缓存问题</title><link href="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/" rel="alternate" type="text/html" title="nextInt()缓存问题" /><published>2023-09-18T19:48:30+08:00</published><updated>2023-09-18T19:48:30+08:00</updated><id>http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93</id><content type="html" xml:base="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/"><![CDATA[<h1 id="运行环境dosbox编译器masm">运行环境dosbox，编译器masm</h1>
 
-&lt;h2 id=&quot;问题代码&quot;&gt;问题代码&lt;/h2&gt;
+<p>源程序代表.asm文件， debug程序是dos提供的程序。</p>
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+<h2 id="1是segment而不是segement">1.是segment而不是segement</h2>
+
+<h2 id="2在源程序中不能以字母开头-比如ffffh应该表示为0ffffh">2.在源程序中，不能以字母开头， 比如ffffh应该表示为0ffffh</h2>
+
+<h2 id="3数据需要显式指明进制-比如使用0001h而不是0001表示16进制的1">3.数据需要显式指明进制 比如使用0001h而不是0001表示16进制的1</h2>
+
+<h2 id="4操作内存需要使用寄存器作为段地址或偏移地址">4.操作内存需要使用寄存器作为段地址或偏移地址,</h2>
+
+<p>如</p>
+
+<p><code class="language-plaintext highlighter-rouge">mov ds:[0], ax</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">mov ds:[bx], ax</code></p>
+
+<p>直接写 mov ax, [0]在源程序中会被当成立即数， 即mov ax,0 ，这和debug下不同</p>
+
+<p>(debug程序下是可以这样写的)\</p>
+
+<h2 id="5通用寄存器axbxcxdx不能作为段基址寄存器">5.通用寄存器AX,BX,CX,DX不能作为段基址寄存器</h2>
+
+<h2 id="6以栈指针0为起始地址则要存多少字节sp就是多大要存16字节sp就是0010h">6.以栈指针0为起始地址，则要存多少字节，sp就是多大，要存16字节，sp就是0010h</h2>
+
+<h2 id="7mov-ss-ax会给变ax处的内容">7.mov ss, ax会给变（ax）处的内容</h2>
+
+<p><code class="language-plaintext highlighter-rouge">stacksg segment</code>
+  <code class="language-plaintext highlighter-rouge">dw 6h,7h,5h,7h ;用栈保存字符对应的长度</code>
+<code class="language-plaintext highlighter-rouge">stacksg ends</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">codesg segment</code>
+  <code class="language-plaintext highlighter-rouge">start:</code>
+<code class="language-plaintext highlighter-rouge">;设置栈指针</code>
+	<code class="language-plaintext highlighter-rouge">mov ax, stacksg</code>
+	<code class="language-plaintext highlighter-rouge">mov ss, ax</code>
+	<code class="language-plaintext highlighter-rouge">mov sp, 8</code></p>
+
+<p>在代码中，当你使用<code class="language-plaintext highlighter-rouge">mov ss, ax</code>将<code class="language-plaintext highlighter-rouge">ax</code>的值赋给栈段寄存器<code class="language-plaintext highlighter-rouge">ss</code>后，栈段寄存器指向的栈段地址发生了变化。之前<code class="language-plaintext highlighter-rouge">ax</code>寄存器中的值指向的内存地址被标识为栈顶，但现在指向的地址变了，也就是栈顶的地址也变了，导致之前在栈顶位置的数据被覆盖。</p>
+
+<p>因此，建议在操作栈时，先将栈段寄存器设置好，再将需要入栈的数据压入栈中。而不是在定义栈段时就写入数据，以避免数据被意外覆盖。</p>
+
+<h3 id="8只用bxsidibp这四个寄存器可以作为偏移地址使用比如使用esdx会提示must-be-index-or-base-register">8.只用bx,si,di,bp这四个寄存器可以作为偏移地址使用，比如使用es:[dx]会提示Must be index or base register</h3>
+
+<h3 id="9使用word-ptr-或者-byte-ptr-指明内存长度结合mov可以对内存修改">9.使用word ptr 或者 byte ptr 指明内存长度，结合mov可以对内存修改</h3>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="masm" /><summary type="html"><![CDATA[对汇编语言(王爽版)的经验总结]]></summary></entry><entry><title type="html">nextInt()缓存问题</title><link href="http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="nextInt()缓存问题" /><published>2022-05-23T12:41:38+08:00</published><updated>2022-05-23T12:41:38+08:00</updated><id>http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2022/05/23/nextInt%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98/"><![CDATA[<p>一句话总结就是nextInt()会输入换行符之前的所有数据，而换行符会留在缓存区</p>
+
+<h2 id="问题代码">问题代码</h2>
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -37,50 +82,50 @@
 33
 34
 35
-&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;java&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;util&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Scanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+</pre></td><td class="code"><pre><span class="k">import</span> <span class="nx">java</span><span class="p">.</span><span class="nx">util</span><span class="p">.</span><span class="nx">Scanner</span><span class="p">;</span>
 
-&lt;span class=&quot;kr&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Main&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;//手动输入一个数组，包括数组长度&lt;/span&gt;
-    &lt;span class=&quot;kr&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;Scanner&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Scanner&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+<span class="kr">public</span> <span class="kd">class</span> <span class="nx">Main</span> <span class="p">{</span>
+    <span class="c1">//手动输入一个数组，包括数组长度</span>
+    <span class="kr">public</span> <span class="kd">static</span> <span class="k">void</span> <span class="nx">main</span><span class="p">(</span><span class="nb">String</span><span class="p">[]</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">Scanner</span> <span class="nx">input</span><span class="p">;</span>
+        <span class="nx">input</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Scanner</span><span class="p">(</span><span class="nx">System</span><span class="p">.</span><span class="k">in</span><span class="p">);</span>
 
-        &lt;span class=&quot;c1&quot;&gt;//输入数组长度&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;strLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;//申请的字符串数组长度&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;输入字符串长度: &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;strLength&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;nextInt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-        &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;strLength&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+        <span class="c1">//输入数组长度</span>
+        <span class="nx">int</span> <span class="nx">strLength</span><span class="p">;</span><span class="c1">//申请的字符串数组长度</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">输入字符串长度: </span><span class="dl">"</span><span class="p">);</span>
+        <span class="nx">strLength</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">nextInt</span><span class="p">();</span>
+        <span class="nb">String</span><span class="p">[]</span> <span class="nx">str</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">String</span><span class="p">[</span><span class="nx">strLength</span><span class="p">];</span>
 
-        &lt;span class=&quot;c1&quot;&gt;//1.不行！ 尝试清除io缓存中的字符**&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//但是这种方式是不行的，因为一旦关闭了输入流或输出流，就不能再次使用它。&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//因为一旦关闭流，底层的资源就会被释放，包括在缓冲区中尚未读取或写入的数据。&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//如果你试图在关闭流后再次使用它，就会出现异常。&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//input.close();&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//input = new Scanner(System.in);&lt;/span&gt;
+        <span class="c1">//1.不行！ 尝试清除io缓存中的字符**</span>
+        <span class="c1">//但是这种方式是不行的，因为一旦关闭了输入流或输出流，就不能再次使用它。</span>
+        <span class="c1">//因为一旦关闭流，底层的资源就会被释放，包括在缓冲区中尚未读取或写入的数据。</span>
+        <span class="c1">//如果你试图在关闭流后再次使用它，就会出现异常。</span>
+        <span class="c1">//input.close();</span>
+        <span class="c1">//input = new Scanner(System.in);</span>
 
-        &lt;span class=&quot;c1&quot;&gt;//2.可以! 使用这种方法读取直到下一个换行符的全部数据&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;//input.nextLine();&lt;/span&gt;
+        <span class="c1">//2.可以! 使用这种方法读取直到下一个换行符的全部数据</span>
+        <span class="c1">//input.nextLine();</span>
 
-        &lt;span class=&quot;c1&quot;&gt;//输入数组内容&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;输入一系列字符串: &lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;strLength&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;nextLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        <span class="c1">//输入数组内容</span>
+        <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">println</span><span class="p">(</span><span class="dl">"</span><span class="s2">输入一系列字符串: </span><span class="dl">"</span><span class="p">);</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nx">int</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">strLength</span> <span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="c1">//</span>
+            <span class="nx">str</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">input</span><span class="p">.</span><span class="nx">nextLine</span><span class="p">();</span>
 
-        &lt;span class=&quot;c1&quot;&gt;//输出数组内容&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;nx&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;printf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;这是第%d个字符串:%s&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;str&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-        &lt;span class=&quot;nx&quot;&gt;input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;close&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+        <span class="c1">//输出数组内容</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nx">int</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">str</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="nx">System</span><span class="p">.</span><span class="nx">out</span><span class="p">.</span><span class="nx">printf</span><span class="p">(</span><span class="dl">"</span><span class="s2">这是第%d个字符串:%s</span><span class="se">\n</span><span class="dl">"</span><span class="p">,</span> <span class="nx">i</span><span class="p">,</span><span class="nx">str</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="nx">input</span><span class="p">.</span><span class="nx">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
-&lt;h1 id=&quot;实验结果&quot;&gt;实验结果&lt;/h1&gt;
-&lt;p&gt;&lt;img src=&quot;/imgs/nextInt%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C1.png&quot; alt=&quot;nextInt实验结果1&quot; title=&quot;实验结果中，数组出现了一个莫名其妙的空白，实际上是换行符&quot; /&gt;&lt;/p&gt;
+<h1 id="实验结果">实验结果</h1>
+<p><img src="/imgs/nextInt%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C1.png" alt="nextInt实验结果1" title="实验结果中，数组出现了一个莫名其妙的空白，实际上是换行符" /></p>
 
-&lt;p&gt;上述问题出现的原因是:
-第一次nextInt读取数组长度时会读入遇到第一个换行符时缓存区内的所有输入，而换行符本身被留在了io流缓存中。&lt;/p&gt;
+<p>上述问题出现的原因是:
+第一次nextInt读取数组长度时会读入遇到第一个换行符时缓存区内的所有输入，而换行符本身被留在了io流缓存中。</p>
 
-&lt;p&gt;&lt;strong&gt;如果取消注释第22行的代码，io流缓冲区中，到下一个换行符的所有内容将被读取出来。&lt;/strong&gt;
-&lt;br /&gt;
-&lt;strong&gt;此时的运行结果如下:&lt;/strong&gt;
-&lt;img src=&quot;/imgs/nextInt%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C2.png&quot; alt=&quot;placeholder&quot; title=&quot;增加input.nextLine()读取缓存区之后的结果&quot; /&gt;&lt;/p&gt;</content><author><name>Narohaz</name></author><category term="post" /><category term="java" /><summary type="html">一句话总结就是nextInt()会输入换行符之前的所有数据，而换行符会留在缓存区</summary></entry></feed>
+<p><strong>如果取消注释第22行的代码，io流缓冲区中，到下一个换行符的所有内容将被读取出来。</strong>
+<br />
+<strong>此时的运行结果如下:</strong>
+<img src="/imgs/nextInt%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C2.png" alt="placeholder" title="增加input.nextLine()读取缓存区之后的结果" /></p>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="java" /><summary type="html"><![CDATA[数组长度莫名其妙减少1;输出结果多了个换行]]></summary></entry></feed>
