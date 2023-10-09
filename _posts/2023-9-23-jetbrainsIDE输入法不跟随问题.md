@@ -11,7 +11,16 @@ tags :
 - jetbrains,idea,clion,pychatm
 ---
 
-1. 安装经过修改的依赖
-https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64
+# 1. 安装经过修改的jbr
 
-2. 将解压之后的内容替换ide中jar包内的所有文件(位置 /opt/clion/jar
+    [Linux x64](https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.8-linux-x64-b1000.37.tar.gz)
+
+    Linux AArch64: https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.8-linux-aarch64-b1000.37.tar.gzx
+
+
+# 2. 在ide中双击shift-choose jar-runtime-选中解压后的1中解压后的目录  
+或者    
+  
+    将解压之后的内容替换ide中jar包内的所有文件(位置 /opt/clion/jar) 其他ide同理
+    另，在snap中下载的软件会有snap专有的写保护
+    又另，貌似这个问题在windows中也有但是早被修复了

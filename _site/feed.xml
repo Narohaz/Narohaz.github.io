@@ -1,12 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-09-23T13:11:42+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>“To Measure Is To Know. If You Cannot Measure It, You Cannot Improve It”  --Lord Kelvin</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">解决ubuntu下搜狗输入法不跟随问题</title><link href="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="解决ubuntu下搜狗输入法不跟随问题" /><published>2023-09-23T13:02:30+08:00</published><updated>2023-09-23T13:02:30+08:00</updated><id>http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/"><![CDATA[<ol>
-  <li>
-    <p>安装经过修改的依赖
-https://github.com/RikudouPatrickstar/JetBrainsRuntime-for-Linux-x64</p>
-  </li>
-  <li>
-    <p>将解压之后的内容替换ide中jar包内的所有文件(位置 /opt/clion/jar</p>
-  </li>
-</ol>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="ubuntu" /><category term="搜狗输入法" /><category term="jetbrains,idea,clion,pychatm" /><summary type="html"><![CDATA[问题记录]]></summary></entry><entry><title type="html">汇编语言经验总结</title><link href="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/" rel="alternate" type="text/html" title="汇编语言经验总结" /><published>2023-09-18T19:48:30+08:00</published><updated>2023-09-18T19:48:30+08:00</updated><id>http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93</id><content type="html" xml:base="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/"><![CDATA[<h1 id="运行环境dosbox编译器masm">运行环境dosbox，编译器masm</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-10T00:44:22+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>More is different.Less is more.</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">解决ubuntu下搜狗输入法不跟随问题</title><link href="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="解决ubuntu下搜狗输入法不跟随问题" /><published>2023-09-23T13:02:30+08:00</published><updated>2023-09-23T13:02:30+08:00</updated><id>http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/"><![CDATA[<h1 id="1-安装经过修改的jbr">1. 安装经过修改的jbr</h1>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[Linux x64](https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.8-linux-x64-b1000.37.tar.gz)
+
+Linux AArch64: https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.8-linux-aarch64-b1000.37.tar.gzx
+</code></pre></div></div>
+
+<h1 id="2-在ide中双击shift-choose-jar-runtime-选中解压后的1中解压后的目录">2. 在ide中双击shift-choose jar-runtime-选中解压后的1中解压后的目录</h1>
+<p>或者</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>将解压之后的内容替换ide中jar包内的所有文件(位置 /opt/clion/jar) 其他ide同理
+另，在snap中下载的软件会有snap专有的写保护
+又另，貌似这个问题在windows中也有但是早被修复了
+</code></pre></div></div>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="ubuntu" /><category term="搜狗输入法" /><category term="jetbrains,idea,clion,pychatm" /><summary type="html"><![CDATA[问题记录]]></summary></entry><entry><title type="html">汇编语言经验总结</title><link href="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/" rel="alternate" type="text/html" title="汇编语言经验总结" /><published>2023-09-18T19:48:30+08:00</published><updated>2023-09-18T19:48:30+08:00</updated><id>http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93</id><content type="html" xml:base="http://localhost:4000/2023/09/18/%E6%B1%87%E7%BC%96%E8%AF%AD%E8%A8%80%E6%80%BB%E7%BB%93/"><![CDATA[<h1 id="运行环境dosbox编译器masm">运行环境dosbox，编译器masm</h1>
 
 <p>源程序代表.asm文件， debug程序是dos提供的程序。</p>
 
