@@ -1,14 +1,14 @@
 ---
 layout: post
-title : 解决ubuntu下搜狗输入法不跟随问题
+title : kde fctix输入法在部分窗口下不能使用 问题
 author : Narohaz
-date : 2023-9-23 13:02:30 +0800
+date : 2023-10-10 1:05:49 +0800
 description: 问题记录
 tags : 
 - post
-- ubuntu
+- manjaro
 - 搜狗输入法
-- jetbrains,idea,clion,pychatm
+- fctix
 ---
 
 # 1. 安装经过修改的依赖  
