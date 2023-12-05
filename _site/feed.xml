@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-10-10T01:04:23+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>More is different.Less is more.</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">解决ubuntu下搜狗输入法不跟随问题</title><link href="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="解决ubuntu下搜狗输入法不跟随问题" /><published>2023-09-23T13:02:30+08:00</published><updated>2023-09-23T13:02:30+08:00</updated><id>http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/"><![CDATA[<h1 id="1-安装经过修改的依赖">1. 安装经过修改的依赖</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="3.9.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-12-06T00:37:09+08:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Narohaz’s blog’</title><subtitle>More is different.Less is more.</subtitle><author><name>Narohaz</name><email>zr1943065871@163.com</email></author><entry><title type="html">hyprland配置了留档</title><link href="http://localhost:4000/2023/12/04/Hyprland%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/" rel="alternate" type="text/html" title="hyprland配置了留档" /><published>2023-12-04T23:56:30+08:00</published><updated>2023-12-04T23:56:30+08:00</updated><id>http://localhost:4000/2023/12/04/Hyprland%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95</id><content type="html" xml:base="http://localhost:4000/2023/12/04/Hyprland%E9%85%8D%E7%BD%AE%E8%AE%B0%E5%BD%95/"><![CDATA[<p>一个非常漂亮的hyprland配置文件<a href="https://github.com/prasanthrangan/hyprdots">仓库地址</a></p>
+
+<ol>
+  <li>
+    <p>输入法问题
+在hyprland中使用fcitx5除了需要在bashrc中添加输入法的环境变量
+想要启动需要命令
+fcitx5 –replace -d 
+或者 开机启动exec-once=fcitx5 –replace -d //replace必须要有，否则不会启动.</p>
+  </li>
+  <li>
+    <p>光标消失问题
+在hyprland.conf中添加
+env = XCURSOR_SIZE, 24
+env = WLR_NO_HARDWARE_CURSORS,1</p>
+  </li>
+  <li>
+    <p>切换图标时预览图像消失问题
+(因为我的电脑上安装hyprland-nvidia-git会出现问题，手动修改成hyprland-nvidia之后运行会导致一部分指令没有执行)
+复制.config/swww中的图片 到对应位置</p>
+  </li>
+  <li>
+    <p>vscode出现不稳定的显示
+(不知道该怎么描述， 快速移动的过程上感觉会有残影和卡顿， 感觉渲染和什么出现了不兼容的感觉, 具体点来说就是操作快乐会出现重影)</p>
+
+    <p>1.尝试的几种解决方法</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   xwayland {
+     force_zero_scaling = true
+   }
+</code></pre></div>    </div>
+    <p>https://www.reddit.com/r/hyprland/comments/15jb7l7/blurry_vscode_on_hyprland/
+   感觉没起到什么作用</p>
+
+    <p>2.–ozone-platform=wayland –enable-features=WaylandWindowDecorations
+   制定vscode使用wayland协议的方法，但是经测试没有什么</p>
+
+    <ol>
+      <li>
+        <p>貌似和hyprland的窗口方式，有关，好像在全屏下容易出现这个问题，使float模式出现的次数就少了, 可能是我hyprland的窗口配置导致的(?)</p>
+      </li>
+      <li>不确定是否起到了作用，在安装了vscodium之后，vscode本身好像这个问题消失了。</li>
+      <li>使用–disable-gpu启动vscode(反复测试之后这个好像是最有效的？？)</li>
+    </ol>
+
+    <p>最好的解决方法是使用wayland启动，因为之前没有正确的设置启动参数导致我一直认为wayland帮助不大
+   实际上在
+   ~/.config/electron25-flags.conf 中加入
+   –enable-features=UseOzonePlatform,WaylandWindowDecorations –ozone-platform-hint=auto 
+   会让electron应用使用wayland启动
+   (其中我之前已经查到了这种方式了，方式写在了错误的配置文件之中，如果之间简单的在终端启动很快就能发现这个用法，因为这样启动的vscode缩放不一样)
+   网上说使用 ~/.config/code-flags.conf来设置启动参数的，也有说在~/.config/electron-flags.conf中的，但是经测试只有上面的方法对vscode生效了
+   当然也可以直接</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   code --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto 
+</code></pre></div>    </div>
+    <p>注意上面的WaylandWindowDecorations和USeOzonePlatform都必须要有，我在没有前者的情况下会闪退</p>
+
+    <p>或者对于单个应用来说可以在</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   /usr/share/applications/XXX.desktop
+</code></pre></div>    </div>
+
+    <p>之中的exec后面添加</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   --enable-features=UseOzonePlatform,WaylandWindowDecorations --ozone-platform-hint=auto 
+</code></pre></div>    </div>
+  </li>
+</ol>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="hyprland" /><category term="manjaro" /><summary type="html"><![CDATA[问题记录]]></summary></entry><entry><title type="html">manjaro安装cuda11.8</title><link href="http://localhost:4000/2023/12/03/%E5%AE%89%E8%A3%85cuda11.8/" rel="alternate" type="text/html" title="manjaro安装cuda11.8" /><published>2023-12-03T23:52:30+08:00</published><updated>2023-12-03T23:52:30+08:00</updated><id>http://localhost:4000/2023/12/03/%E5%AE%89%E8%A3%85cuda11.8</id><content type="html" xml:base="http://localhost:4000/2023/12/03/%E5%AE%89%E8%A3%85cuda11.8/"><![CDATA[<p><a href="https://forum.manjaro.org/u/mirix"><img src="https://forum.manjaro.org/user_avatar/forum.manjaro.org/mirix/96/4120_2.png" alt="img" /></a></p>
+
+<p><strong><a href="https://forum.manjaro.org/u/mirix">mirix</a></strong></p>
+
+<p>1</p>
+
+<p><a href="https://forum.manjaro.org/t/howto-installing-nvidia-cuda-and-cudnn-for-machine-learning/97162/6">3 Aug</a></p>
+
+<p>My situation: pytorch by default supports cuda 11.7, but, alternatively, also provides support for 11.8. I need 11.8 because 11.7 does not support the native capabilities of my card. Whereas 11.7 is in AUR, 11.8 is not.</p>
+
+<p>This is the Arch git recipe:</p>
+
+<p>CUDA</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://gitlab.archlinux.org/archlinux/packaging/packages/cuda.git
+<span class="nb">cd </span>cuda
+git tag <span class="nt">--list</span>
+</code></pre></div></div>
+
+<p>chose the right version from the list</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="k">switch</span> <span class="o">--</span><span class="n">detach</span> <span class="mf">11.8.0</span><span class="o">-</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<p>edit PDKBUILD to change gcc version if required
+cuda 11.8 is incompatible with ggc 13
+I installed gcc 11 from AUR (yay gcc11)
+in theory gcc 12 should do as well</p>
+
+<pre><code class="language-undefined">makepkg
+sudo pacman -U cuda-11.8.0-1-x86_64.pkg.tar.zst cuda-tools-11.8.0-1-x86_64.pkg.tar.zst
+export MAX_GCC_VERSION=11
+sudo ln -s /opt/cuda /usr/local/cuda
+sudo ln -s /usr/bin/gcc-$MAX_GCC_VERSION /usr/local/cuda/bin/gcc 
+sudo ln -s /usr/bin/g++-$MAX_GCC_VERSION /usr/local/cuda/bin/g++
+</code></pre>
+
+<p>CUDNN</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://gitlab.archlinux.org/archlinux/packaging/packages/cudnn.git
+<span class="nb">cd </span>cudnn
+git tag <span class="nt">--list</span>
+</code></pre></div></div>
+
+<p>chose the right version from the list</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">git</span> <span class="k">switch</span> <span class="o">--</span><span class="n">detach</span> <span class="mf">8.9.2.26</span><span class="o">-</span><span class="mi">1</span>
+</code></pre></div></div>
+
+<p>edit PDKBUILD to change cuda version to 11 and the b2sum of the tar file
+b2sum cudnn-linux-x86_64-8.9.2.26_cuda11-archive.tar.xz</p>
+
+<pre><code class="language-undefined">makepkg
+sudo pacman -U cudnn-8.9.2.26-1-x86_64.pkg.tar.zst
+</code></pre>
+
+<p>cuda按照以上指示安装就行</p>
+
+<p>使用yay安装gcc11比较慢是正常的</p>
+
+<p>安装cudunn的部分</p>
+
+<ol>
+  <li>先makepkg得到 cudnn-8.9.2.26-1-x86_64.pkg.tar.zst文件</li>
+  <li>使用b2sum 得到 cudnn-8.9.2.26-1-x86_64.pkg.tar.zst NVIDIA_SLA+cuDNN_Supp_Feb2017_release.pdf 的校验值，覆盖PKGBUILD中b2sum两个值的内容</li>
+  <li>使用makepkg得到cudnn-linux-x86_64-8.9.2.26_cuda11-archive.tar.xz</li>
+  <li>使用sudo pacman -U cudnn-linux-x86_64-8.9.2.26_cuda11-archive.tar.xz</li>
+</ol>]]></content><author><name>Narohaz</name></author><category term="post" /><category term="manjaro" /><category term="cuda" /><summary type="html"><![CDATA[问题记录]]></summary></entry><entry><title type="html">解决ubuntu下搜狗输入法不跟随问题</title><link href="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/" rel="alternate" type="text/html" title="解决ubuntu下搜狗输入法不跟随问题" /><published>2023-09-23T13:02:30+08:00</published><updated>2023-09-23T13:02:30+08:00</updated><id>http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98</id><content type="html" xml:base="http://localhost:4000/2023/09/23/jetbrainsIDE%E8%BE%93%E5%85%A5%E6%B3%95%E4%B8%8D%E8%B7%9F%E9%9A%8F%E9%97%AE%E9%A2%98/"><![CDATA[<h1 id="1-安装经过修改的依赖">1. 安装经过修改的依赖</h1>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Linux x64: https://cache-redirector.jetbrains.com/intellij-jbr/jbr_jcef-17.0.8-linux-x64-b1000.37.tar.gz
 
